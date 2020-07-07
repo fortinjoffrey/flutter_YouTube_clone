@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_api_clone/model/channel/channel_result.dart';
 import 'package:youtube_api_clone/model/search_result.dart';
+import 'package:youtube_api_clone/model/video/video_result.dart';
+import 'package:youtube_api_clone/views/channel_cell.dart';
+import 'package:youtube_api_clone/views/video_cell.dart';
 import '../shared/constants.dart';
 
 class Home extends StatefulWidget {
@@ -36,15 +39,13 @@ class _HomeState extends State<Home> {
       itemBuilder: (context, index) {
         SearchResult result = results[index];
 
-        return Container(
-          height: 100,
-          decoration: BoxDecoration(
-            color: result is ChannelResult ? Colors.red : Colors.blue,
-          ),
-          child: Center(
-            child: Text(results[index].title),
-          ),
-        );
+        if (result is ChannelResult) {
+          return ChannelCell(channel: result);
+        } else if (result is VideoResult) {
+          return VideoCell(video: result);
+        } else {
+          return Text('Error');
+        }
       },
     );
   }
