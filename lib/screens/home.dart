@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_api_clone/model/channel/channel_result.dart';
+import 'package:youtube_api_clone/model/search_result.dart';
+import '../shared/constants.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -8,6 +11,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final List<SearchResult> results = dummyResults;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +32,17 @@ class _HomeState extends State<Home> {
 
   ListView _buildSearchResultsListView() {
     return ListView.builder(
-      itemCount: 20,
+      itemCount: results.length,
       itemBuilder: (context, index) {
+        SearchResult result = results[index];
+
         return Container(
           height: 100,
           decoration: BoxDecoration(
-            color: index % 2 == 0 ? Colors.red : Colors.blue,
+            color: result is ChannelResult ? Colors.red : Colors.blue,
+          ),
+          child: Center(
+            child: Text(results[index].title),
           ),
         );
       },
