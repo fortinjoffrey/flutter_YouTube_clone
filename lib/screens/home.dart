@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_api_clone/model/channel/channel_result.dart';
-import 'package:youtube_api_clone/model/search_result.dart';
-import 'package:youtube_api_clone/model/video/video_result.dart';
-import 'package:youtube_api_clone/views/channel_cell.dart';
-import 'package:youtube_api_clone/views/video_cell.dart';
-import '../shared/constants.dart';
+
+import '../model/channel/channel_result.dart';
+import '../model/search_result.dart';
+import '../model/video/video_result.dart';
+import '../services/youtube_api_service.dart';
+import '../views/channel_cell.dart';
+import '../views/video_cell.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -14,7 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<SearchResult> results = dummyResults;
+  List<SearchResult> results = List<SearchResult>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,24 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: [
-          _buildSearchTextField(),
+          // ignore: todo
+          // TODO: extract TextField (will do when implementing state management)
+          TextField(
+            autocorrect: false,
+            decoration: InputDecoration(
+              suffixIcon: Icon(Icons.search),
+              contentPadding: const EdgeInsets.all(16.0),
+              hintText: 'Search for channel or video',
+            ),
+            onSubmitted: (searchText) async {
+              List<SearchResult> fetchedResults = await YoutubeAPIService
+                  .instance
+                  .fetchSearchResults(searchText);
+              setState(() {
+                results = fetchedResults;
+              });
+            },
+          ),
           Expanded(
             child: _buildSearchResultsListView(),
           ),
@@ -47,16 +65,6 @@ class _HomeState extends State<Home> {
           return Text('Error');
         }
       },
-    );
-  }
-
-  TextField _buildSearchTextField() {
-    return TextField(
-      autocorrect: false,
-      decoration: InputDecoration(
-          suffixIcon: Icon(Icons.search),
-          contentPadding: const EdgeInsets.all(16.0),
-          hintText: 'Search for channel or video'),
     );
   }
 }

@@ -8,10 +8,12 @@ class VideoResult extends SearchResult {
     thumbnailUrl,
   }) : super(id, kind, title, thumbnailUrl);
 
-  VideoResult.dummy(
-    id,
-    kind,
-    title,
-    thumbnailUrl,
-  ) : super(id, kind, title, thumbnailUrl);
+  factory VideoResult.fromMap(Map<String, dynamic> map) {
+    return VideoResult(
+      id: map['id']['videoId'],
+      kind: map['id']['kind'],
+      title: map['snippet']['title'],
+      thumbnailUrl: map['snippet']['thumbnails']['medium']['url'],
+    );
+  }
 }

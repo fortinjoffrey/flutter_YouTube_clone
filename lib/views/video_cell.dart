@@ -18,12 +18,8 @@ class VideoCell extends StatelessWidget {
         children: [
           Flexible(
             flex: 3,
-            child: Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                ),
-              ),
+            child: Image(
+              image: NetworkImage(video.thumbnailUrl),
             ),
           ),
           SizedBox(width: 16.0),
