@@ -16,6 +16,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<SearchResult> results = List<SearchResult>();
+  bool _isLoading = false;
+  String _searchText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +36,17 @@ class _HomeState extends State<Home> {
               contentPadding: const EdgeInsets.all(16.0),
               hintText: 'Search for channel or video',
             ),
-            onSubmitted: (searchText) async {
+            onSubmitted: (text) async {
+              setState(() {
+                _isLoading = true;
+                _searchText = text;
+              });
               List<SearchResult> fetchedResults = await YoutubeAPIService
                   .instance
-                  .fetchSearchResults(searchText);
+                  .fetchSearchResults(_searchText, isNewSearch: true);
               setState(() {
                 results = fetchedResults;
+                _isLoading = false;
               });
             },
           ),
@@ -51,20 +58,44 @@ class _HomeState extends State<Home> {
     );
   }
 
-  ListView _buildSearchResultsListView() {
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) {
-        SearchResult result = results[index];
-
-        if (result is ChannelResult) {
-          return ChannelCell(channel: result);
-        } else if (result is VideoResult) {
-          return VideoCell(video: result);
-        } else {
-          return Text('Error');
+  NotificationListener<ScrollNotification> _buildSearchResultsListView() {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (scrollDetails) {
+        if (!_isLoading &&
+            scrollDetails.metrics.pixels + 50 >=
+                scrollDetails.metrics.maxScrollExtent) {
+          _fetchMoreResults();
         }
+        return false;
       },
+      child: ListView.builder(
+        itemCount: results.length,
+        itemBuilder: (context, index) {
+          SearchResult result = results[index];
+
+          if (result is ChannelResult) {
+            return ChannelCell(channel: result);
+          } else if (result is VideoResult) {
+            return VideoCell(video: result);
+          } else {
+            return Text('Error');
+          }
+        },
+      ),
     );
+  }
+
+  _fetchMoreResults() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    List<SearchResult> newResults = await YoutubeAPIService.instance
+        .fetchSearchResults(_searchText, isNewSearch: false);
+
+    setState(() {
+      results = results..addAll(newResults);
+      _isLoading = false;
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/channel/channel_result.dart';
@@ -15,8 +16,10 @@ class YoutubeAPIService {
   final String _baseUrl = 'www.googleapis.com';
   String _nextPageToken = '';
 
-  Future<List<SearchResult>> fetchSearchResults(String searchText) async {
+  Future<List<SearchResult>> fetchSearchResults(String searchText,
+      {@required bool isNewSearch}) async {
     List<SearchResult> results = List<SearchResult>();
+    _nextPageToken = isNewSearch ? '' : _nextPageToken;
 
     Map<String, String> urlParams = {
       'part': 'snippet',
@@ -26,7 +29,7 @@ class YoutubeAPIService {
       'key': API_KEY,
     };
 
-    final response = await fetchResponseFrom(urlParams, 'youtube/v3/search');
+    final response = await _fetchResponseFrom(urlParams, 'youtube/v3/search');
 
     if (response != null) {
       var data = json.decode(response.body);
@@ -55,7 +58,7 @@ class YoutubeAPIService {
     return results;
   }
 
-  Future<http.Response> fetchResponseFrom(
+  Future<http.Response> _fetchResponseFrom(
       Map<String, String> urlParams, String urlSection) async {
     Uri uri = Uri.https(_baseUrl, urlSection, urlParams);
 
