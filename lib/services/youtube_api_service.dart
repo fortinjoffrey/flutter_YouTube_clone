@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/channel/channel_info_result.dart';
 import '../model/channel/channel_result.dart';
 import '../model/search_result.dart';
 import '../model/video/video_result.dart';
@@ -44,6 +45,10 @@ class YoutubeAPIService {
         switch (kind) {
           case 'youtube#channel':
             ChannelResult channel = ChannelResult.fromMap(item);
+            ChannelInfoResult channelInfo = await _fetchChannelInfo(channel.id);
+
+            channel.subscriberCount = channelInfo.subscriberCount;
+            channel.videoCount = channelInfo.videoCount;
             results.add(channel);
             break;
           case 'youtube#video':
@@ -56,6 +61,25 @@ class YoutubeAPIService {
     }
     print(results.length);
     return results;
+  }
+
+  Future<ChannelInfoResult> _fetchChannelInfo(String channelId) async {
+    Map<String, String> urlParams = {
+      'part': 'statistics',
+      'id': channelId,
+      'key': API_KEY,
+    };
+
+    final response =
+        await _fetchResponseFrom(urlParams, '/youtube/v3/channels');
+
+    if (response != null) {
+      var data = json.decode(response.body);
+
+      return ChannelInfoResult.fromMap(data['items'][0]);
+    } else {
+      return ChannelInfoResult(subscriberCount: '', videoCount: '');
+    }
   }
 
   Future<http.Response> _fetchResponseFrom(

@@ -1,8 +1,8 @@
 import '../search_result.dart';
 
 class ChannelResult extends SearchResult {
-  final String subscriberCount;
-  final String videoCount;
+  String subscriberCount;
+  String videoCount;
 
   ChannelResult({
     id,
