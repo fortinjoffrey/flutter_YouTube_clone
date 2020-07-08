@@ -69,8 +69,14 @@ class _HomeState extends State<Home> {
         return false;
       },
       child: ListView.builder(
-        itemCount: results.length,
+        itemCount: _isLoading ? results.length + 1 : results.length,
         itemBuilder: (context, index) {
+          if (_isLoading) {
+            if (index == results.length) {
+              return _buildCircularProgressIndicator();
+            }
+          }
+
           SearchResult result = results[index];
 
           if (result is ChannelResult) {
@@ -81,6 +87,15 @@ class _HomeState extends State<Home> {
             return Text('Error');
           }
         },
+      ),
+    );
+  }
+
+  Container _buildCircularProgressIndicator() {
+    return Container(
+      height: 100,
+      child: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
