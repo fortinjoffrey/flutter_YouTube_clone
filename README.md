@@ -1,16 +1,24 @@
-# youtube_api_clone
+# Youtube clone using Youtube API V3
 
 A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Step 1 : Download and open project files in your code editor 
 
-A few resources to get you started if this is your first Flutter project:
+### Step 2 : Download the packages
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Run :
+   
+```bash
+flutter pub get
+```
+    
+### Step 2 : To use Youtube API, you need to provide your own API_KEY.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Create folder "shared" in lib/ and file "keys.dart" in lib/shared/ and add this line of code :
+```dart
+const String API_KEY = 'YOUR_API_KEY';
+```
+Links that may help on obtaining an API Key :
+https://console.developers.google.com/apis/credentials
