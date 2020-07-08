@@ -3,6 +3,7 @@ import '../search_result.dart';
 class ChannelResult extends SearchResult {
   String subscriberCount;
   String videoCount;
+  bool hiddenSubscriberCount;
 
   ChannelResult({
     id,
@@ -11,6 +12,7 @@ class ChannelResult extends SearchResult {
     thumbnailUrl,
     this.subscriberCount,
     this.videoCount,
+    this.hiddenSubscriberCount,
   }) : super(id, kind, title, thumbnailUrl);
 
   factory ChannelResult.fromMap(Map<String, dynamic> map) {

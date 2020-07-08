@@ -49,6 +49,8 @@ class YoutubeAPIService {
 
             channel.subscriberCount = channelInfo.subscriberCount;
             channel.videoCount = channelInfo.videoCount;
+            channel.hiddenSubscriberCount = channelInfo.hiddenSubscriberCount;
+
             results.add(channel);
             break;
           case 'youtube#video':
@@ -78,7 +80,8 @@ class YoutubeAPIService {
 
       return ChannelInfoResult.fromMap(data['items'][0]);
     } else {
-      return ChannelInfoResult(subscriberCount: '', videoCount: '');
+      return ChannelInfoResult(
+          subscriberCount: '', videoCount: '', hiddenSubscriberCount: false);
     }
   }
 
