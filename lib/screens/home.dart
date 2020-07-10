@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
   Future _handleVideoTapped(BuildContext context, VideoResult result) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => VideoScreen(video: result)),
+      MaterialPageRoute(builder: (context) => VideoScreen(result)),
     );
   }
 

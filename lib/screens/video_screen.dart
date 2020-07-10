@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_api_clone/model/video/video_result.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoScreen extends StatelessWidget {
-  const VideoScreen({Key key, this.video}) : super(key: key);
+  const VideoScreen(this.video, {Key key}) : super(key: key);
 
   final VideoResult video;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(video.title),
+    YoutubePlayerController _playerController = YoutubePlayerController(
+      initialVideoId: video.id,
+      flags: YoutubePlayerFlags(
+        mute: false,
+        autoPlay: false,
       ),
-      body: Container(
-        child: Center(child: Text('coucou')),
+    );
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            YoutubePlayer(
+              controller: _playerController,
+              showVideoProgressIndicator: true,
+              onReady: () {
+                print('Player is ready');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
