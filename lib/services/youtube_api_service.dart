@@ -39,7 +39,7 @@ class YoutubeAPIService {
 
       List<dynamic> items = data['items'];
 
-      items.forEach((item) async {
+      await Future.forEach(items, (item) async {
         final String kind = item['id']['kind'];
 
         switch (kind) {
