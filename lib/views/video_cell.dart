@@ -38,12 +38,12 @@ class VideoCell extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Author',
+                  video.minInfo.author,
                   maxLines: 1,
                   style: TextStyle(color: Colors.grey),
                 ),
                 Text(
-                  'Timestamp',
+                  '${video.minInfo.timestamp} - ${video.minInfo.viewCount} views',
                   maxLines: 1,
                   style: TextStyle(color: Colors.grey),
                 ),

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:youtube_api_clone/model/video/video_info_result.dart';
 
 import '../model/channel/channel_info_result.dart';
 import '../model/channel/channel_result.dart';
@@ -46,16 +47,15 @@ class YoutubeAPIService {
           case 'youtube#channel':
             ChannelResult channel = ChannelResult.fromMap(item);
             ChannelInfoResult channelInfo = await _fetchChannelInfo(channel.id);
-
-            channel.subscriberCount = channelInfo.subscriberCount;
-            channel.videoCount = channelInfo.videoCount;
-            channel.hiddenSubscriberCount = channelInfo.hiddenSubscriberCount;
-
+            channel.minInfo = channelInfo;
             results.add(channel);
             break;
           case 'youtube#video':
             VideoResult video = VideoResult.fromMap(item);
+            VideoInfoResult videoInfo = await _fetchVideoInfo(video.id);
+            video.minInfo = videoInfo;
             results.add(video);
+
             break;
           default:
         }
@@ -85,6 +85,24 @@ class YoutubeAPIService {
     }
   }
 
+  Future<VideoInfoResult> _fetchVideoInfo(String videoId) async {
+    Map<String, String> urlParams = {
+      'part': 'snippet, statistics',
+      'id': videoId,
+      'key': API_KEY,
+    };
+
+    final response = await _fetchResponseFrom(urlParams, '/youtube/v3/videos');
+
+    if (response != null) {
+      var data = json.decode(response.body);
+
+      return VideoInfoResult.fromMap(data['items'][0]);
+    } else {
+      return VideoInfoResult(author: '', timestamp: '', viewCount: '');
+    }
+  }
+
   Future<http.Response> _fetchResponseFrom(
       Map<String, String> urlParams, String urlSection) async {
     Uri uri = Uri.https(_baseUrl, urlSection, urlParams);
@@ -102,3 +120,32 @@ class YoutubeAPIService {
     }
   }
 }
+
+/*
+ 
+ Future<Video> _fetchVideoInfoFromId({String videoId}) async {
+    Map<String, String> parameters = {
+      'part': 'snippet, statistics',
+      'id': videoId,
+      'key': API_KEY,
+    };
+    Uri uri = Uri.https(_baseUrl, 'youtube/v3/videos', parameters);
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var response = await http.get(uri, headers: headers);
+
+    if (200 == response.statusCode) {
+      var data = json.decode(response.body);
+
+      dynamic videoJson = data['items'][0];
+
+      return Video.fromMap(videoJson);
+    } else {
+      throw json.decode(response.body)['error']['message'];
+    }
+  }
+
+ */

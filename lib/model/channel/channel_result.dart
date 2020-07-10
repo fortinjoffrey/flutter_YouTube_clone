@@ -1,18 +1,16 @@
+import 'package:youtube_api_clone/model/channel/channel_info_result.dart';
+
 import '../search_result.dart';
 
 class ChannelResult extends SearchResult {
-  String subscriberCount;
-  String videoCount;
-  bool hiddenSubscriberCount;
+  ChannelInfoResult minInfo;
 
   ChannelResult({
     id,
     kind,
     title,
     thumbnailUrl,
-    this.subscriberCount,
-    this.videoCount,
-    this.hiddenSubscriberCount,
+    minInfo,
   }) : super(id, kind, title, thumbnailUrl);
 
   factory ChannelResult.fromMap(Map<String, dynamic> map) {

@@ -36,9 +36,9 @@ class ChannelCell extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  channel.hiddenSubscriberCount
-                      ? '${channel.videoCount} videos'
-                      : '${channel.subscriberCount} subscribers - ${channel.videoCount} videos',
+                  channel.minInfo.hiddenSubscriberCount
+                      ? '${channel.minInfo.videoCount} videos'
+                      : '${channel.minInfo.subscriberCount} subscribers - ${channel.minInfo.videoCount} videos',
                   style: TextStyle(color: Colors.grey),
                 ),
                 Text(
