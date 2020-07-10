@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_api_clone/screens/channel_screen.dart';
 
 import '../model/channel/channel_result.dart';
 import '../model/search_result.dart';
@@ -6,6 +7,7 @@ import '../model/video/video_result.dart';
 import '../services/youtube_api_service.dart';
 import '../views/channel_cell.dart';
 import '../views/video_cell.dart';
+import 'video_screen.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -80,14 +82,39 @@ class _HomeState extends State<Home> {
           SearchResult result = results[index];
 
           if (result is ChannelResult) {
-            return ChannelCell(channel: result);
+            return GestureDetector(
+              child: ChannelCell(channel: result),
+              onTap: () {
+                _handleChannelTapped(context, result);
+              },
+            );
           } else if (result is VideoResult) {
-            return VideoCell(video: result);
+            return GestureDetector(
+              child: VideoCell(video: result),
+              onTap: () {
+                _handleVideoTapped(context, result);
+              },
+            );
           } else {
             return Text('Error');
           }
         },
       ),
+    );
+  }
+
+  Future _handleVideoTapped(BuildContext context, VideoResult result) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => VideoScreen(video: result)),
+    );
+  }
+
+  Future _handleChannelTapped(BuildContext context, ChannelResult result) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => ChannelScreen(channel: result)),
     );
   }
 
