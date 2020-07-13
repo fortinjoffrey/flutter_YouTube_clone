@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_api_clone/extensions/string_extension.dart';
 import 'package:youtube_api_clone/model/video/video_result.dart';
 import 'package:intl/intl.dart';
 
@@ -9,9 +10,10 @@ class VideoCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(video.title);
+    print(video.minInfo.timestamp);
     final String viewCount = NumberFormat.compact(locale: 'en-EN')
         .format(double.parse(video.minInfo.viewCount));
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
@@ -47,7 +49,7 @@ class VideoCell extends StatelessWidget {
                   style: TextStyle(color: Colors.grey),
                 ),
                 Text(
-                  '${video.minInfo.timestamp} - $viewCount views',
+                  '${StringExtension.displayTimeAgoFromTimestamp(video.minInfo.timestamp)} - $viewCount views',
                   maxLines: 1,
                   style: TextStyle(color: Colors.grey),
                 ),
