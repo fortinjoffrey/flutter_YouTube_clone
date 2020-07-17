@@ -126,32 +126,3 @@ class YoutubeAPIService {
     }
   }
 }
-
-/*
- 
- Future<Video> _fetchVideoInfoFromId({String videoId}) async {
-    Map<String, String> parameters = {
-      'part': 'snippet, statistics',
-      'id': videoId,
-      'key': API_KEY,
-    };
-    Uri uri = Uri.https(_baseUrl, 'youtube/v3/videos', parameters);
-
-    Map<String, String> headers = {
-      HttpHeaders.contentTypeHeader: 'application/json',
-    };
-
-    var response = await http.get(uri, headers: headers);
-
-    if (200 == response.statusCode) {
-      var data = json.decode(response.body);
-
-      dynamic videoJson = data['items'][0];
-
-      return Video.fromMap(videoJson);
-    } else {
-      throw json.decode(response.body)['error']['message'];
-    }
-  }
-
- */
