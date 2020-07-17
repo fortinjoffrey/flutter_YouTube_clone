@@ -99,7 +99,12 @@ class YoutubeAPIService {
 
       return VideoInfoResult.fromMap(data['items'][0]);
     } else {
-      return VideoInfoResult(author: '', timestamp: '', viewCount: '');
+      return VideoInfoResult(
+          author: '',
+          timestamp: '',
+          viewCount: '',
+          likeCount: '',
+          dislikeCount: '');
     }
   }
 

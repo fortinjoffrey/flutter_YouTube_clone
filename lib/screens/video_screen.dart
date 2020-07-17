@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:youtube_api_clone/model/video/video_result.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -49,6 +50,8 @@ class VideoScreen extends StatelessWidget {
   }
 
   Container _buildTitleAndViewCount() {
+    final String viewCount = NumberFormat.compact(locale: 'en-EN')
+        .format(double.parse(video.minInfo.viewCount));
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
       child: Column(
@@ -65,7 +68,7 @@ class VideoScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16.0),
-          Text("${video.minInfo.viewCount} views"),
+          Text("$viewCount views"),
         ],
       ),
     );
@@ -79,6 +82,10 @@ class VideoScreen extends StatelessWidget {
   }
 
   Row _buildActionsButtonsRow() {
+    final String likeCount = NumberFormat.compact(locale: 'en-EN')
+        .format(double.parse(video.minInfo.likeCount));
+    final String dislikeCount = NumberFormat.compact(locale: 'en-EN')
+        .format(double.parse(video.minInfo.dislikeCount));
     return Row(
       children: <Widget>[
         Expanded(
@@ -90,7 +97,7 @@ class VideoScreen extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Container(
-                child: Text("${int.parse('31')}"),
+                child: Text("$likeCount"),
               ),
             ],
           ),
@@ -103,7 +110,7 @@ class VideoScreen extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Container(
-                child: Text("${int.parse('31')}"),
+                child: Text("$dislikeCount"),
               ),
             ],
           ),
