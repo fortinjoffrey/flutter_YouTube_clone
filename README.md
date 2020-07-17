@@ -22,3 +22,7 @@ const String API_KEY = 'YOUR_API_KEY';
 ```
 Links that may help on obtaining an API Key :
 https://console.developers.google.com/apis/credentials
+
+## Demo
+
+<img src="demo/demo.gif" width="50%"/>
