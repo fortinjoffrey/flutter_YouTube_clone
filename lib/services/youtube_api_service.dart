@@ -104,7 +104,8 @@ class YoutubeAPIService {
           timestamp: '',
           viewCount: '',
           likeCount: '',
-          dislikeCount: '');
+          dislikeCount: '',
+          description: '');
     }
   }
 

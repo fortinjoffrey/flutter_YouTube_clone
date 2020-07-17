@@ -74,13 +74,6 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-  Container _buildDescriptionContainer() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-      child: Text('video.description'),
-    );
-  }
-
   Row _buildActionsButtonsRow() {
     final String likeCount = NumberFormat.compact(locale: 'en-EN')
         .format(double.parse(video.minInfo.likeCount));
@@ -129,6 +122,13 @@ class VideoScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Container _buildDescriptionContainer() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+      child: Text(video.minInfo.description),
     );
   }
 }
