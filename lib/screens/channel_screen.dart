@@ -11,6 +11,7 @@ class ChannelScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(channel.title),
+        backgroundColor: Color(0xffc4302b),
       ),
       body: Container(
         child: Center(child: Text('coucou')),
